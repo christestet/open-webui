@@ -520,6 +520,7 @@ async def get_rag_config(request: Request, user=Depends(get_admin_user)):
         # Integration settings
         "ENABLE_GOOGLE_DRIVE_INTEGRATION": request.app.state.config.ENABLE_GOOGLE_DRIVE_INTEGRATION,
         "ENABLE_ONEDRIVE_INTEGRATION": request.app.state.config.ENABLE_ONEDRIVE_INTEGRATION,
+        "ENABLE_CONFLUENCE_INTEGRATION": request.app.state.config.ENABLE_CONFLUENCE_INTEGRATION,
         # Web search settings
         "web": {
             "ENABLE_WEB_SEARCH": request.app.state.config.ENABLE_WEB_SEARCH,
@@ -726,6 +727,7 @@ class ConfigForm(BaseModel):
     # Integration settings
     ENABLE_GOOGLE_DRIVE_INTEGRATION: Optional[bool] = None
     ENABLE_ONEDRIVE_INTEGRATION: Optional[bool] = None
+    ENABLE_CONFLUENCE_INTEGRATION: Optional[bool] = None
 
     # Web search settings
     web: Optional[WebConfig] = None
@@ -1080,6 +1082,11 @@ async def update_rag_config(
         if form_data.ENABLE_ONEDRIVE_INTEGRATION is not None
         else request.app.state.config.ENABLE_ONEDRIVE_INTEGRATION
     )
+    request.app.state.config.ENABLE_CONFLUENCE_INTEGRATION = (
+        form_data.ENABLE_CONFLUENCE_INTEGRATION
+        if form_data.ENABLE_CONFLUENCE_INTEGRATION is not None
+        else request.app.state.config.ENABLE_CONFLUENCE_INTEGRATION
+    )
 
     if form_data.web is not None:
         # Web search settings
@@ -1270,6 +1277,7 @@ async def update_rag_config(
         # Integration settings
         "ENABLE_GOOGLE_DRIVE_INTEGRATION": request.app.state.config.ENABLE_GOOGLE_DRIVE_INTEGRATION,
         "ENABLE_ONEDRIVE_INTEGRATION": request.app.state.config.ENABLE_ONEDRIVE_INTEGRATION,
+        "ENABLE_CONFLUENCE_INTEGRATION": request.app.state.config.ENABLE_CONFLUENCE_INTEGRATION,
         # Web search settings
         "web": {
             "ENABLE_WEB_SEARCH": request.app.state.config.ENABLE_WEB_SEARCH,
