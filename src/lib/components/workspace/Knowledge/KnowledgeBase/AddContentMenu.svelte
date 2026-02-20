@@ -4,6 +4,8 @@
 	import { getContext, createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
+	import { config } from '$lib/stores';
+
 	import Dropdown from '$lib/components/common/Dropdown.svelte';
 	import Tooltip from '$lib/components/common/Tooltip.svelte';
 	import ArrowUpCircle from '$lib/components/icons/ArrowUpCircle.svelte';
@@ -11,6 +13,7 @@
 	import FolderOpen from '$lib/components/icons/FolderOpen.svelte';
 	import ArrowPath from '$lib/components/icons/ArrowPath.svelte';
 	import GlobeAlt from '$lib/components/icons/GlobeAlt.svelte';
+	import CloudArrowUp from '$lib/components/icons/CloudArrowUp.svelte';
 
 	const i18n = getContext('i18n');
 
@@ -116,6 +119,18 @@
 				<BarsArrowUp strokeWidth="2" />
 				<div class="flex items-center">{$i18n.t('Add text content')}</div>
 			</DropdownMenu.Item>
+
+			{#if $config?.features?.enable_confluence_integration}
+				<DropdownMenu.Item
+					class="flex gap-2 items-center px-3 py-1.5 text-sm  cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800  rounded-xl"
+					on:click={() => {
+						onUpload({ type: 'confluence' });
+					}}
+				>
+					<CloudArrowUp strokeWidth="2" />
+					<div class="flex items-center">{$i18n.t('Import from Confluence')}</div>
+				</DropdownMenu.Item>
+			{/if}
 		</DropdownMenu.Content>
 	</div>
 </Dropdown>
